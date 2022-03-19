@@ -3,8 +3,6 @@ from .fuzzy_rule import FuzzyRule
 from .fuzzy_variable_output import FuzzyVariableOutput
 from .fuzzy_variable_input import FuzzyVariableInput
 import matplotlib.pyplot as plt
-from matplotlib import rc
-import numpy as np
 
 
 class FuzzySystem:
@@ -20,15 +18,15 @@ class FuzzySystem:
         """
         Initializes fuzzy system.
         data structures required:
-            input variables -- dict, having format {variable_name: FuzzyVariable, ...}
-            output variables -- dict, having format {variable_name: FuzzyVariable, ...}
+            input variables -- dict, having format {variable_name: FuzzyVariableInput, ...}
+            output variables -- dict, having format {variable_name: FuzzyVariableOutput, ...}
             rules -- list of FuzzyRule
             output_distribution -- dict holding fuzzy output for each variable having format
                                 {variable_name: FuzzySet, ...}
         """
-        self.input_variables = {}
-        self.output_variables = {}
-        self.rules = []
+        self.input_variables = {}   # a dict of input variables
+        self.output_variables = {}  # a dict of output variables
+        self.rules = []     # a list that contains FuzzyRules
 
     def __str__(self) -> str:
         """
@@ -44,55 +42,57 @@ class FuzzySystem:
                 IF [antecedent clauses] THEN [consequent clauses]
         """
         ret_str = 'Input: \n'
-        for n, s in self._input_variables.items():
+        for n, s in self.input_variables.items():
             ret_str = ret_str + f'{n}: ({s})\n'
         ret_str = ret_str + 'Output: \n'
-        for n, s in self._output_variables.items():
+        for n, s in self.output_variables.items():
             ret_str = ret_str + f'{n}: ({s})\n'
         ret_str = ret_str + 'Rules: \n'
-        for rule in self._rules:
+        for rule in self.rules:
             ret_str = ret_str + f'{rule}\n'
         return ret_str
 
-    def add_input_variable(self, variable: Any) -> None:
+    def add_input_variable(self, var: FuzzyVariableInput) -> None:
         """
         TODO:
-         Add an input variable to the system
-        :param variable: the input fuzzy variable
+         Add a FuzzyVariableInput `var` to `self.input_variables`
+        :param var: the input fuzzy variable
         """
         # Write the code below
 
         pass
 
-    def add_output_variable(self, variable: Any) -> None:
+    def add_output_variable(self, var: FuzzyVariableOutput) -> None:
         """
         TODO:
-         Add an output variable to the system
-        :param variable: the output fuzzy variable
+         Add a FuzzyVariableOutput `var` to `self.output_variables`
+        :param var: the output fuzzy variable
         """
         # Write the code below
 
         pass
 
-    def get_input_variable(self, name: str) -> Any:
+    def get_input_variable(self, name: str) -> FuzzyVariableInput:
         """
         TODO:
-         Get an input variable given the name
+         Get a FuzzyVariableInput given by `name`
         :param name: name of variable
         """
+        var = None
         # Write your code below
 
-        pass
+        return var
 
-    def get_output_variable(self, name: str) -> Any:
+    def get_output_variable(self, name: str) -> FuzzyVariableOutput:
         """
         TODO:
-         Get an output variable given the name
+         Get a FuzzyVariableOutput given by `name`
         :param name: name of variable
         """
+        var = None
         # Write your code below
 
-        pass
+        return var
 
     def clear_output_distributions(self) -> None:
         """
@@ -100,16 +100,32 @@ class FuzzySystem:
         """
         map(lambda output_var: output_var.clear_output_distribution(), self.output_variables.values())
 
-    def add_rule(self, antecedent_clauses: Any, consequent_clauses: Any) -> None:
+    def add_rule(self, antecedent_clause_names: dict, consequent_clause_names: dict) -> None:
         """
         TODO:
-         Adds a new rule to the system.
-        :param antecedent_clauses: a dict of clause, having the form {variable_name: set_name, ...}
-        :param consequent_clauses: having the form {variable_name: set_name, ...}
+         Adds a new rule to the system from dictionaries of antecedent and consequent clause names
+        :param antecedent_clause_names: a dict of clause, having the form {variable_name: set_name, ...}
+        :param consequent_clause_names: having the form {variable_name: set_name, ...}
         """
         # create a new rule
         new_rule = FuzzyRule()
-        # Write your code below
+        # add antecedent clauses
+        for var_name, set_name in antecedent_clause_names.items():
+            # write your code here
+            # get the input variable and corresponding fuzzy set for the antecedent clause
+            # and then add the clause to `new_rule`
+
+            pass
+
+            # add consequent clauses
+            for var_name, set_name in consequent_clause_names.items():
+                # write your code here
+                # get the output variable and corresponding fuzzy set for the consequent clause
+                # and then add the clause to `new_rule`
+
+                pass
+
+        # add the new rule
 
         pass
 
@@ -154,7 +170,7 @@ class FuzzySystem:
         info['fuzzification'] = '\n'.join(fuzzification_info)
         # evaluate rules
         rule_info = []
-        for rule in self._rules:
+        for rule in self.rules:
             rule_info.append(rule.evaluate_info())
         info['rules'] = '\n'.join(rule_info)
         # finally, defuzzify all output distributions to get the crisp outputs

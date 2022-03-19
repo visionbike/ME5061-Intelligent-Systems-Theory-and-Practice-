@@ -3,7 +3,7 @@ from .fuzzy_variable import FuzzyVariable
 
 class FuzzyVariableInput(FuzzyVariable):
 
-    def __init__(self, name: str, min_val: float, max_val: float, res: float) -> None:
+    def __init__(self, name: str, min_val: float, max_val: float, res: int) -> None:
         super().__init__(name, min_val, max_val, res)
 
     def fuzzify(self, value: float) -> None:
@@ -23,7 +23,7 @@ class FuzzyVariableInput(FuzzyVariable):
         # get dom for each set and store it - it will be required for each rule
         for set_name, f_set in self.sets.items():
             f_set.last_dom_value = f_set[value]
-        res = [self._name, '\n']
+        res = [self.name, '\n']
         for _, f_set in self.sets.items():
             res.append(f_set.name)
             res.append(str(f_set.last_dom_value))

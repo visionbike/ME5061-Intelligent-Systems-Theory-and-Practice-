@@ -4,7 +4,7 @@ from .fuzzy_set import FuzzySet
 
 
 class FuzzyVariableOutput(FuzzyVariable):
-    def __init__(self, name: str, min_val: float, max_val: float, res: float) -> None:
+    def __init__(self, name: str, min_val: float, max_val: float, res: int) -> None:
         super().__init__(name, min_val, max_val, res)
         self.output_distribution = FuzzySet(name, min_val, max_val, res)
 

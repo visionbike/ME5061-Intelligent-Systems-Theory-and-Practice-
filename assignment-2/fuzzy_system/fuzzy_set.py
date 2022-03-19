@@ -1,13 +1,12 @@
 from typing import Any
 from numpy.typing import NDArray
 import numpy as np
-import matplotlib.pyplot as plt
 
 
 class FuzzySet:
     precision: int = 3
 
-    def __init__(self, name: str, domain_min: float, domain_max: float, res: float) -> None:
+    def __init__(self, name: str, domain_min: float, domain_max: float, res: int) -> None:
         """
         Initialize the fuzzy set
         :param name: name of the set
@@ -15,21 +14,21 @@ class FuzzySet:
         :param domain_max: the maximum of the set
         :param res: the number of steps between the minimum and maximum value
         """
-        self.domain_min = domain_min
-        self.domain_max = domain_max
+        self.domain_min = domain_min    # the minimum value of the value domain
+        self.domain_max = domain_max    # the maximum value of the value domain
         self.res = res
         # initialize the domain values
-        self.domain = np.linspace(domain_min, domain_max, res)
+        self.domain = np.linspace(domain_min, domain_max, res)  # a list that contains discrete value in the value domain
         # initialize the degree-of-membership values
-        self.dom = np.zeros(self.domain.shape)
-
+        self.dom = np.zeros(self.domain.shape)  # a list that contains degree of membership values estimated from self.domain
+        #
         self.name = name
         self._last_dom_value = 0
 
-    def __getitem__(self, x_val):
+    def __getitem__(self, x_val: float):
         return self.dom[np.abs(self.domain - x_val).argmin()]
 
-    def __setitem__(self, x_val, dom):
+    def __setitem__(self, x_val: float, dom: float):
         self.dom[np.abs(self.domain - x_val).argmin()] = round(dom, self.precision)
 
     def __str__(self) -> str:
@@ -38,10 +37,10 @@ class FuzzySet:
         """
         return ' + '.join([str(a) + '/' + str(b) for a, b in zip(self.dom, self.domain)])
 
-    def __get_last_dom_value(self):
+    def __get_last_dom_value(self) -> float:
         return self._last_dom_value
 
-    def __set_last_dom_value(self, d):
+    def __set_last_dom_value(self, d: float) -> None:
         self._last_dom_value = d
 
     last_dom_value = property(__get_last_dom_value, __set_last_dom_value)
@@ -55,14 +54,14 @@ class FuzzySet:
                            name: str,
                            domain_min: float,
                            domain_max: float,
-                           res: float,
+                           res: int,
                            a: float,
                            b: float,
                            c: float,
                            d: float) -> Any:
         """
         TODO:
-         Implement trapezoidal membership function, following the formula
+         Implement trapezoidal membership function, following the formula from `fuzzy_logic_and_fuzzy_set.ipynb`
         :param name: name of the trapezoidal function
         :param domain_min: the minimum value of the trapezoidal function
         :param domain_max: the maximum value of the trapezoidal function
@@ -91,16 +90,16 @@ class FuzzySet:
                           name: str,
                           domain_min: float,
                           domain_max: float,
-                          res: float,
+                          res: int,
                           a: float,
                           m: float,
                           b: float) -> Any:
         """
         TODO:
-         Implement triangle membership function, following the formula
-        :param name: name of the trapezoidal function
-        :param domain_min: the minimum value of the trapezoidal function
-        :param domain_max: the maximum value of the trapezoidal function
+         Implement triangular membership function, following the formula from `fuzzy_logic_and_fuzzy_set.ipynb`
+        :param name: name of the triangular function
+        :param domain_min: the minimum value of the triangular function
+        :param domain_max: the maximum value of the triangular function
         :param res: the number of steps between the minimum and maximum value
         :param a: the special input
         :param m: the special input
@@ -147,8 +146,8 @@ class FuzzySet:
     def union(self, f_set: Any) -> Any:
         """
         TODO:
-         Implement the Union operator of fuzzy set.
-         It is calculated by maximizing values of the current fuzzy set (self) and f_set.
+         Implement the Union operator of FuzzySet.
+         It is calculated by maximizing values of this FuzzySet and FuzzySet `f_set`.
         :param f_set: the other fuzzy set to unite with
         :return: the union of current fuzzy set and f_set
         """
@@ -165,8 +164,8 @@ class FuzzySet:
     def intersection(self, f_set: Any) -> Any:
         """
         TODO:
-         Implement the Intersection operator of fuzzy set.
-         It is calculated by minimizing values of the current fuzzy set (self) and f_set.
+         Implement the Intersection operator of FuzzySet.
+         It is calculated by minimizing values of the this FuzzySet and FuzzySet `f_set`.
         :param f_set: the other fuzzy set to intersect with
         :return: the intersection of current fuzzy set and f_set
         """
@@ -183,7 +182,7 @@ class FuzzySet:
     def complement(self) -> Any:
         """
         TODO:
-         Implement the Completion operator of fuzzy set.
+         Implement the Completion operator of FuzzySet.
          It is calculated by subtract the degree of membership value from 1.
         :return: the complement of current fuzzy set (self)
         """

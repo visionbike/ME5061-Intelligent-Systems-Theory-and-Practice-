@@ -1,5 +1,6 @@
 from typing import Any
 from .fuzzy_set import FuzzySet
+import matplotlib.pyplot as plt
 
 
 class FuzzyVariable:
@@ -7,7 +8,7 @@ class FuzzyVariable:
     A type-1 fuzzy variable that is mage up of a number of type-1 fuzzy sets
     """
 
-    def __init__(self, name: str, min_val: float, max_val: float, res: float) -> None:
+    def __init__(self, name: str, min_val: float, max_val: float, res: int) -> None:
         """
         Creates a new type-1 fuzzy variable (universe)
         :param name: the name of variable
@@ -15,19 +16,19 @@ class FuzzyVariable:
         :param max_val: maximum value of variable
         :param res: resolution of variable
         """
-        self.sets = {}
+        self.sets = {}  # a list that contains FuzzySet
         self.max_val = max_val
         self.min_val = min_val
         self.res = res
         self.name = name
 
-    def __str__(self) -> None:
+    def __str__(self) -> str:
         return ', '.join(self.sets.keys())
 
-    def add_set(self, name: str, f_set: Any) -> None:
+    def add_set(self, name: str, f_set: FuzzySet) -> None:
         """
         TODO:
-         Adds a fuzzy set into sets dictionary of the variable
+         Adds FuzzySet `f_set` into dictionary `self.sets` with key `name`
         :param name: name of the set
         :param f_set: the fuzzy set
         """
@@ -35,20 +36,22 @@ class FuzzyVariable:
 
         pass
 
-    def get_set(self, name: str) -> Any:
+    def get_set(self, name: str) -> FuzzySet:
         """
         TODO:
-         Return a fuzzy set given the name
+         Return a FuzzySet given the `name`
         :param name: set name
         """
+        f_set = None
         # Write your code below
 
-        pass
+        return f_set
 
-    def add_triangular(self, name: str, low: float, mid: float, high: float) -> Any:
+    def add_triangular(self, name: str, low: float, mid: float, high: float) -> FuzzySet:
         """
         TODO:
-         Add triangular membership function to the variable
+         Create a triangular membership function from given arguments.
+         Then add the created triangular membership function to `self.sets`
         :param name: set name
         :param low: a value
         :param mid: m value
@@ -59,10 +62,11 @@ class FuzzyVariable:
 
         return new_set
 
-    def add_trapezoidal(self, name: str, a: float, b: float, c: float, d: float) -> Any:
+    def add_trapezoidal(self, name: str, a: float, b: float, c: float, d: float) -> FuzzySet:
         """
         TODO:
-         Add trapezoidal membership function to the variable
+         Create a trapezoidal membership function from given arguments.
+         Then add the created trapezoidal membership function to `self.sets`
         :param name: set name
         :param a: a value
         :param b: b value

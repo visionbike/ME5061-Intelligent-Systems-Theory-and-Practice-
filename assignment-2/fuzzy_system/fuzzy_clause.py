@@ -1,6 +1,8 @@
-from typing import Any
+from typing import Union
 from .fuzzy_set import FuzzySet
 from .fuzzy_variable import FuzzyVariable
+from .fuzzy_variable_input import FuzzyVariableInput
+from .fuzzy_variable_output import FuzzyVariableOutput
 
 
 class FuzzyClause:
@@ -8,11 +10,13 @@ class FuzzyClause:
     A fuzzy clause of the type 'variable is fset' used in fuzzy IF ... THEN ... rules
     clauses can be antecedent (IF part) or consequent (THEN part)
     """
-    def __init__(self, var: Any, f_set: Any) -> None:
+    def __init__(self,
+                 var: Union[FuzzyVariable, FuzzyVariableInput, FuzzyVariableOutput],
+                 f_set: FuzzySet) -> None:
         """
         Initializes the fuzzy clause
-        :param var: the clause variable in 'variable is fset'
-        :param f_set: the clause set in 'variable is fset'
+        :param var: the variable in 'variable is fset'
+        :param f_set: the fuzzy set in 'variable is fset'
         """
         if f_set is None:
             raise Exception('f_set is NoneType!')
@@ -52,11 +56,10 @@ class FuzzyClause:
         """
         return self.f_set.last_dom_value
 
-    def evaluate_consequent(self, dom: Any) -> None:
+    def evaluate_consequent(self, dom: float) -> None:
         """
         Used when clause is consequent.
         :param dom: degree of membership, or scalar value from the antecedent clauses
         :return: Fuzzy Set Type1, a set resulting from min operation with the scalar value
         """
         self.var.add_rule_contribution(self.f_set.min_scalar(dom))
-

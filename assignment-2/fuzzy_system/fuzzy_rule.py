@@ -1,4 +1,6 @@
 from typing import Any
+from .fuzzy_variable import FuzzyVariable
+from .fuzzy_set import FuzzySet
 from .fuzzy_clause import FuzzyClause
 
 
@@ -15,8 +17,8 @@ class FuzzyRule:
         1. Antecedent clauses list
         2. Consequent clauses list
         """
-        self.antecedents = []
-        self.consequents = []
+        self.antecedents = []   # list of antecedents clauses
+        self.consequents = []   # list of consequents clauses
 
     def __str__(self) -> str:
         """
@@ -27,27 +29,29 @@ class FuzzyRule:
         cons = ' and '.join(map(str, self.consequents))
         return f'IF {ante} THEN {cons}'
 
-    def add_antecedent_clause(self, var: Any, f_set: Any) -> None:
+    def add_antecedent_clause(self, var: FuzzyVariable, f_set: FuzzySet) -> None:
         """
         TODO:
-         Creat new antecedent clause with variable `var` and fuzzy set `f_set` using FuzzyClause.
-         Adds an antecedent clause to the antecedent list.
+         Creat new antecedent clause using FuzzyClause from `var` and `f_set`
+         Then add the created antecedent clause to `self.antecendents`
         :param var: the clause variable in 'variable is set'
         :param f_set: another fuzzy set
         """
+        clause = None
         # Write your code below
 
         pass
 
-    def add_consequent_clause(self, var: Any, f_set: Any) -> None:
+    def add_consequent_clause(self, var: FuzzyVariable, f_set: FuzzySet) -> None:
         """
         TODO:
-         Creat new consequent clause with variable `var` and fuzzy set `f_set` using FuzzyClause.
-         Adds an consequent clause to the consequent list.
+         Creat new consequent clause using FuzzyClause from `var` and `f_set`
+         Then add the created consequent clause to `self.consequents`
         Adds a consequent clause to the rule
         :param var: the clause variable in 'variable is set'
         :param f_set: another fuzzy set
         """
+        clause = None
         # Write your code below
 
         pass
